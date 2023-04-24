@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import './App.css'
 import { type User } from './types'
 import { UsersList } from './components/UsersList'
 
-function App () {
+function App() {
   const [users, setUsers] = useState<User[]>([])
   const [showColors, setShowColors] = useState(false)
   const [sortByCountry, setSortByCountry] = useState(false)
@@ -33,17 +33,25 @@ function App () {
       })
   }, [])
 
-  const filteredUsers = filterCountry !== null && filterCountry.length > 0
-  ? users.filter((user) => {
-    return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
-  })
-  : users
+  const sortUsers = (users: User[]) => {
 
-  const sortedUsers = sortByCountry
-    ? filteredUsers.toSorted((a, b) => {
-      return a.location.country.localeCompare(b.location.country)
-    })
-    : filteredUsers
+  }
+
+  const filteredUsers = useMemo(() => {
+    return filterCountry !== null && filterCountry.length > 0
+      ? users.filter((user) => {
+        return user.location.country.toLowerCase().includes(filterCountry.toLowerCase())
+      })
+      : users
+  }, [users, filterCountry])
+
+  const sortedUsers = useMemo(() => {
+    return sortByCountry
+      ? filteredUsers.toSorted(
+        (a, b) => a.location.country.localeCompare(b.location.country)
+      )
+      : filteredUsers
+  }, [filteredUsers, sortByCountry])
 
   const handleDelete = (email: string) => {
     const filteredUsers = users.filter((user) => user.email !== email)
