@@ -3,7 +3,7 @@ import './App.css'
 import { type User } from './types'
 import { UsersList } from './components/UsersList'
 
-function App() {
+function App () {
   const [users, setUsers] = useState<User[]>([])
   const [showColors, setShowColors] = useState(false)
   const [sortByCountry, setSortByCountry] = useState(false)
@@ -31,6 +31,11 @@ function App() {
     })
     : users
 
+  const handleDelete = (email: string) => {
+    const filteredUsers = users.filter((user) => user.email !== email)
+    setUsers(filteredUsers)
+  }
+
   return (
     <div className='App'>
       <h1>Prueba tecnica</h1>
@@ -39,7 +44,7 @@ function App() {
         <button onClick={toggleSortByCountry}>{sortByCountry ? 'No ordenar por pais' : 'Ordenar por pais'}</button>
       </header>
       <main>
-        <UsersList showColors={showColors} users={sortedUsers} />
+        <UsersList deleteUser={handleDelete} showColors={showColors} users={sortedUsers} />
       </main>
     </div>
 
