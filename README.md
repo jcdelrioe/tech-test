@@ -8,3 +8,5 @@ API: https://randomuser.me/
 [] Allow the data to be sorted by country
 [] Enable the ability to delete a row
 [] Implement a feature that allows the user to restore the initial state, meaning that all deleted rows wil be recovered
+[] handle any potential error that may ocur
+[] Implement a feature that allows the user to filter the data bya country
